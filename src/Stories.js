@@ -2,7 +2,7 @@ import React from "react";
 import { useGlobalContext } from "./context";
 import Loading from "./Loading";
 const Stories = () => {
-  const { loading, hits } = useGlobalContext();
+  const { loading, hits, handleRemoveItem } = useGlobalContext();
   if (loading) {
     return (
       <div className="loading">
@@ -30,7 +30,12 @@ const Stories = () => {
               >
                 read more
               </a>
-              <button className="remove-btn">remove</button>
+              <button
+                onClick={() => handleRemoveItem(objectID)}
+                className="remove-btn"
+              >
+                remove
+              </button>
             </div>
           </article>
         );

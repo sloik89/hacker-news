@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useReducer } from "react";
-import { SET_LOADING, SET_STORIES } from "./actions";
+import { SET_LOADING, SET_STORIES, SET_REMOVE } from "./actions";
 import reducer from "./reducer";
 const url = "http://hn.algolia.com/api/v1/search?";
 const AppContext = React.createContext();
@@ -26,11 +26,16 @@ const AppProvider = ({ children }) => {
       console.log(err);
     }
   };
+  const handleRemoveItem = (id) => {
+    dispatch({ type: SET_REMOVE, payload: id });
+  };
   useEffect(() => {
     fetchStories(`${url}query=${state.query}`);
   }, []);
   return (
-    <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ ...state, handleRemoveItem }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 export const useGlobalContext = () => {
