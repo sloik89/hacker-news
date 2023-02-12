@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext, useReducer } from "react";
-import { SET_LOADING, SET_STORIES, SET_REMOVE, HANDLE_SEARCH } from "./actions";
+import {
+  SET_LOADING,
+  SET_STORIES,
+  SET_REMOVE,
+  HANDLE_SEARCH,
+  HANDLE_PAGE,
+} from "./actions";
 import reducer from "./reducer";
 const url = "http://hn.algolia.com/api/v1/search?";
 const AppContext = React.createContext();
@@ -32,11 +38,16 @@ const AppProvider = ({ children }) => {
   const handleSearch = (query) => {
     dispatch({ type: HANDLE_SEARCH, payload: query });
   };
+  const handlePage = (value) => {
+    dispatch({ type: HANDLE_PAGE, payload: value });
+  };
   useEffect(() => {
     fetchStories(`${url}query=${state.query}&page=${state.page}`);
-  }, [state.query]);
+  }, [state.query, state.page]);
   return (
-    <AppContext.Provider value={{ ...state, handleRemoveItem, handleSearch }}>
+    <AppContext.Provider
+      value={{ ...state, handleRemoveItem, handleSearch, handlePage }}
+    >
       {children}
     </AppContext.Provider>
   );
