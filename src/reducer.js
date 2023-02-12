@@ -1,4 +1,4 @@
-import { SET_LOADING, SET_STORIES, SET_REMOVE } from "./actions";
+import { SET_LOADING, SET_STORIES, SET_REMOVE, HANDLE_SEARCH } from "./actions";
 const reducer = (state, action) => {
   if (action.type === SET_LOADING) {
     return { ...state, loading: true };
@@ -14,6 +14,10 @@ const reducer = (state, action) => {
     const newItems = state.hits.filter((item) => item.objectID !== id);
     console.log(newItems);
     return { ...state, hits: newItems };
+  }
+  if (action.type === HANDLE_SEARCH) {
+    console.log("jestem");
+    return { ...state, query: action.payload };
   }
   return state;
 };
